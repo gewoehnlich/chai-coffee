@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Form</title>
+    <meta charset="UTF-8"/>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        #loginForm {
+            width: 300px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+        
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #TResult {
+            width: 100%;
+            margin-top: 20px;
+            box-sizing: border-box;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <form id="loginForm">
+        <div class="form-group">
+            <label>Логин:</label>
+            <input type="text" id="login" required>
+        </div>
+
+        <div class="form-group">
+            <label>Пароль:</label>
+            <input type="password" id="password" required>
+        </div>
+
+        <button type="button" onclick="submitForm()">Отправить</button>
+
+        <div id="TResult"></div>
+    </form>
+
+    <script>
+        function generateGUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
+                /[xy]/g, 
+                function(c)
+            {
+                var r = Math.random()*16|0, v = c === 'x' ? r : (r&0x3|0x8);
+                return v.toString(16);
+            });
+        }
+
+        function submitForm() {
+            const login = document.getElementById('login').value;
+            const password = document.getElementById('password').value;
+            const guid = generateGUID();
+
+            const data = {
+                login: login,
+                password: password
+            };
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'server.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.setRequestHeader('X-GUID', guid);
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    console.log(xhr.responseText);
+                    document.getElementById(
+                        'TResult'
+                    ).innerText = xhr.responseText;
+                }
+            };
+
+            xhr.send(JSON.stringify(data));
+        }
+    </script>
+</body>
+</html>
