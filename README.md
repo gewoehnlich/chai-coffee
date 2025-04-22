@@ -15,7 +15,7 @@
 
 1. **Клонировать репозиторий**:
     ```bash
-    git clone https://github.com/ваш-username/chai-coffee.git
+    git clone https://github.com/gewoehnlich/chai-coffee.git
     cd chai-coffee
     ```
 2. **Запустить Docker**:
